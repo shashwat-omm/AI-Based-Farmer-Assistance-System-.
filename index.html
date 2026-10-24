@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="description" content="Kisaan Sahayak – Outdoor-readable AI Farmer Assistance with verified government scheme information" />
+  <meta name="theme-color" content="#1E5631" />
+  <title>Kisaan Sahayak | AI Farmer Assistant</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Gurmukhi:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <!-- Sticky Top Navigation -->
+  <header class="navbar" role="banner">
+    <div class="nav-inner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">🌾</div>
+        <div class="brand-text">
+          <h1 id="app-title">Kisaan Sahayak</h1>
+          <p id="app-tagline">AI Farmer Assistance</p>
+        </div>
+      </div>
+
+      <div class="nav-controls">
+        <!-- Sunlight High-Contrast Toggle -->
+        <button
+          type="button"
+          id="contrast-toggle"
+          class="icon-btn contrast-btn"
+          aria-pressed="false"
+          aria-label="Toggle sunlight high-contrast mode"
+          title="Sunlight High-Contrast"
+        >
+          <svg class="icon-sun" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+          </svg>
+          <span class="btn-label" id="contrast-label">Sun</span>
+        </button>
+
+        <label for="lang-select" class="lang-label" id="lang-label">Language</label>
+        <select id="lang-select" class="lang-select" aria-label="Select language">
+          <option value="en">English</option>
+          <option value="hi">हिन्दी</option>
+          <option value="pa">ਪੰਜਾਬੀ</option>
+          <option value="mr">मराठी</option>
+          <option value="ta">தமிழ்</option>
+          <option value="te">తెలుగు</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Layout -->
+  <main class="main" role="main">
+    <!-- Sidebar -->
+    <aside class="sidebar" aria-label="Schemes and tools">
+      <!-- Quick-action scheme chips -->
+      <section class="sidebar-block">
+        <h2 id="schemes-heading" class="section-title">Popular Schemes</h2>
+        <div class="scheme-chips" id="scheme-chips" role="list">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- Test Guardrail & Fallback -->
+      <section class="sidebar-block guardrail-block">
+        <h2 id="guardrail-heading" class="section-title">Test Guardrail &amp; Fallback</h2>
+        <p id="guardrail-desc" class="guardrail-desc">
+          Try an unverified query to see the mandatory anti-hallucination response.
+        </p>
+        <div class="guardrail-actions" id="guardrail-actions">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- Sources Inspector trigger -->
+      <section class="sidebar-block">
+        <button type="button" id="inspector-btn" class="inspector-trigger">
+          <span class="inspector-icon" aria-hidden="true">🔍</span>
+          <span id="inspector-btn-label">Prompt &amp; Sources Inspector</span>
+        </button>
+      </section>
+    </aside>
+
+    <!-- Chat Interface -->
+    <section class="chat-section" aria-labelledby="chat-heading">
+      <div class="chat-header">
+        <div>
+          <h2 id="chat-heading">Ask the Assistant</h2>
+          <p id="chat-sub" class="chat-sub">Verified information only • No guesses</p>
+        </div>
+        <div class="chat-header-badge" id="source-badge" title="Grounded in official scheme documents">
+          <span class="badge-dot"></span>
+          <span id="source-badge-text">Verified sources</span>
+        </div>
+      </div>
+
+      <div class="chat-container" id="chat-container" role="log" aria-live="polite" aria-relevant="additions">
+        <!-- Messages inserted here -->
+      </div>
+
+      <form class="chat-input-area" id="chat-form" autocomplete="off">
+        <div class="input-wrapper">
+          <button
+            type="button"
+            id="mic-btn"
+            class="mic-btn"
+            aria-label="Voice input"
+            title="Speak your question"
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+              <line x1="12" y1="19" x2="12" y2="23"></line>
+              <line x1="8" y1="23" x2="16" y2="23"></line>
+            </svg>
+          </button>
+
+          <textarea
+            id="user-input"
+            rows="1"
+            placeholder="Ask about PM-KISAN, insurance, soil health…"
+            aria-label="Type your question"
+            maxlength="500"
+          ></textarea>
+
+          <button type="submit" class="send-btn" id="send-btn" aria-label="Send message">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </div>
+        <p class="disclaimer" id="disclaimer">
+          Answers are drawn only from verified government scheme information. For official decisions always check the concerned department portal.
+        </p>
+      </form>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo">
+    <p id="footer-text">Inspired by PM-KISAN &amp; Digital India initiatives • For educational demonstration</p>
+  </footer>
+
+  <!-- Prompt & Sources Inspector Modal -->
+  <div id="inspector-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+    <div class="modal-backdrop" id="modal-backdrop"></div>
+    <div class="modal-panel">
+      <div class="modal-header">
+        <h2 id="modal-title">Prompt &amp; Sources Inspector</h2>
+        <button type="button" id="modal-close" class="modal-close" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
